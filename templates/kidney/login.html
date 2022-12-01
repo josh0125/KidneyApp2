@@ -2,10 +2,67 @@
 {% load static %}
 {% block basetitle %} Login 
 {% endblock %} {% block content %}
-<br><br><br><br><br>
+<br><br>
 
 
-<div class="content" style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
+<!-- Section: Design Block -->
+<section class="">
+  <!-- Jumbotron -->
+  <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: white">
+    <div class="container">
+      <div class="row gx-lg-5 align-items-center">
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <h1 class="my-5 display-3 fw-bold ls-tight">
+            The best way <br />
+            <span class="" style="color: #67b0d1;">to track your diet</span>
+          </h1>
+          <p style="color: hsl(217, 10%, 50.8%)">
+            Create an account to start your journey of better health and healing.
+          </p>
+        </div>
+
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <div class="card">
+            <div class="card-body py-5 px-md-5">
+              <form action="/signin/" method='post'>
+                {% csrf_token %}
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                  <input class="form-control" type="text" id="username" name="username" placeholder="Enter Username" Required/>
+                  <label class="form-label" for="form3Example3">Username</label>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                  <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Enter Password" Required/>
+                  <label class="form-label" for="form3Example4">Password</label>
+                </div>
+
+                <!-- Submit button -->
+                  <button type="submit" class="btn btn-block mb-4" style="background: #67b0d1; color: white;">
+                    Sign In
+                  </button>
+
+                <!-- Register buttons -->
+                <div class="text-center">
+                  <p>
+                    Dont have an account? Sign Up Today!
+                  </p>
+                  <a href="{% url 'profile' %}" class="about-btn">Sign Up!<i class="bx bx-chevron-right"></i></a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Jumbotron -->
+</section>
+<!-- Section: Design Block -->
+
+
+{% comment %} <div class="content" style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
   <h3>Sign In</h3>
 
   <form action="/signin/" method='post'>
@@ -24,7 +81,7 @@
     Dont have an account? Sign Up Today!
   </p>
   <a href="{% url 'profile' %}" class="about-btn">Sign Up!<i class="bx bx-chevron-right"></i></a>
-</div>
+</div> {% endcomment %}
 
 
 {% endblock %}
