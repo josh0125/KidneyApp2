@@ -15,16 +15,101 @@ from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 def indexPageView(request):
-    return render(request, 'kidney/index.html')
+    if request.user:
+        new_user = request.user
+        context = {
+            'fName': new_user.firstname, 
+            'lName':new_user.lastname
+        }
+        return render(request, 'kidney/index.html', context)
+        
+    else:
+        return render(request, 'kidney/index.html')
 
 def aboutPageView(request):
     return render(request, 'kidney/about.html')
 
 # Profile Views
-
+'''
 def profilePageView(request):
     return render(request, 'kidney/profilepopup.html')
+'''
+def profilePageView(request):
+    return render(request, 'kidney/profile.html')
 
+def storeProfilePageView(request):
+    if request.method == 'POST':
+        new_person = Person()
+
+        new_person.first_name = request.POST.get('fName')
+        new_person.last_name = request.POST.get('lName')
+        new_person.phone = request.POST.get('phone')
+        new_person.email = request.POST.get('email')
+        new_person.address = request.POST.get('address')
+        new_person.city = request.POST.get('city')
+        new_person.state = request.POST.get('state')
+        new_person.zip = request.POST.get('zipcode')
+        new_person.age = request.POST.get(('age'))
+        new_person.weight = request.POST.get(('weight'))
+        new_person.height = request.POST.get(('height'))
+        new_person.username = request.POST.get('username')
+        new_person.password = request.POST.get('pass1')
+        new_person.race = request.POST.get('race')
+        new_person.gender = request.POST.get('gender')
+
+        new_person.save()
+
+        if (request.POST.get('HBP')):
+            new_Morbidity = Morbidity.objects.create(name='High Blood Pressure', datediagnosed=request.POST.get('bloodDate'))
+            new_person.morbidities.add(new_Morbidity)
+
+        if (request.POST.get('DIA')):
+            new_Morbidity = Morbidity.objects.create(name='Diabetes', datediagnosed=request.POST.get('diabetesDate'))
+            new_person.morbidities.add(new_Morbidity)
+
+       
+
+    
+        username = request.POST['username']
+        fname = request.POST['fName']
+        lname = request.POST['lName']
+        email = request.POST['email']
+        pass1 = request.POST['pass1']
+        pass2 = request.POST['pass2']
+
+        # if User.objects.filter(username=username):
+        #     messages.error(request, "Username already exist! Please enter another username")
+        #     return redirect('profile')
+        
+        # if User.objects.filter(email=email):
+        #     messages.error(request, "Email already registered!")
+        #     return redirect('profile')
+
+        # if len(username)>10:
+        #     messages.error(request, "Username must be under 10 characters")
+        
+        # if pass1 != pass2 :
+        #     messages.error(request, "Passwords didn't match!")
+
+        # if not username.isalnum():
+        #     messages.error(request, "Username must include at least 1 letter")
+        #     return redirect('profile')
+
+
+        myuser = User.objects.create_user(username, email, pass1)
+        myuser.first_name = fname
+        myuser.last_name = lname
+
+        myuser.save()
+
+        context = {
+            'fName':fname, 
+            'lName':lname
+        }
+
+    return render(request, 'kidney/index.html', context)
+
+'''
 def storeProfilePageView(request):
     if request.method == 'POST':
         new_person = Person()
@@ -51,7 +136,7 @@ def storeProfilePageView(request):
             new_person.morbidities.add(new_Morbidity)
 
     return render(request, 'kidney/profilepopup.html')
-
+'''
 # Lab Vitals Views
 
 def labVitalsPageView(request):
@@ -59,7 +144,9 @@ def labVitalsPageView(request):
 
 def storeVitalsPageView(request):
     if request.method == 'POST':
-        person = Person.objects.get(personid=1)
+        new_person = request.user
+
+        person = Person.objects.get(username=new_person.username)
 
         new_vitals = LabVitals()
 
@@ -85,7 +172,9 @@ def JournalPageView(request):
 
 def storeJournalPageView(request):
     if request.method == 'POST':
-        person = Person.objects.get(personid=1)
+        new_person = request.user
+
+        person = Person.objects.get(username=new_person.username)
 
         new_journal = JournalEntry()
 
@@ -105,7 +194,9 @@ def ExercisePageView(request):
 
 def storeExercisePageView(request):
     if request.method == 'POST':
-        person = Person.objects.get(personid=1)
+        new_person = request.user
+
+        person = Person.objects.get(username=new_person.username)
 
         new_exercise = ExerciseEntry()
 
@@ -124,8 +215,9 @@ def FoodEntryPageView(request) :
     return render(request, 'kidney/foodEntry.html')
 
 def FoodEntrySubmitPageView(request):
+    new_person = request.user
 
-    person = Person.objects.get(personid=1)
+    person = Person.objects.get(username=new_person.username)
 
     new_foodEntry = FoodEntry()
     new_foodEntry.personid = person
@@ -274,7 +366,7 @@ def FoodTotalPageView(request) :
     print(date)
     print(mealType)
 
-    foodEntry = FoodEntry.objects.get(foodentryid=id) # Need to Figure Out Dynamic Pull
+    foodEntry = FoodEntry.objects.get(foodentryid=id)
 
     foodEntry.foods.add(new_food)
 
@@ -304,9 +396,20 @@ def FoodTotalPageView(request) :
 def dashboardPageView(request):
     if request.method == 'POST':
         new_date = request.POST.get('date')
-        data = LabVitals.objects.filter(personid=1, Date=new_date)
+        
+        new_person = request.user
+
+        person = Person.objects.get(username=new_person.username)
+
+        data = LabVitals.objects.filter(personid=person.personid, Date=new_date)
+
     else:
-        data = LabVitals.objects.filter(personid=1)# Need to Figure Out Dynamic Pull
+        new_person = request.user
+
+        person = Person.objects.get(username=new_person.username)
+
+        data = LabVitals.objects.filter(personid=person.personid)
+        
 
     K_number = 0
     Phos_number = 0
@@ -358,7 +461,12 @@ def dashboardPageView(request):
 def dashboardMealPageView(request):
     new_date = request.POST.get('date')
     nutrient_type = request.POST.get('nutrient')
-    data = FoodEntry.objects.filter(personid=1, date=new_date)  # Need to Figure Out Dynamic Pull
+
+    new_person = request.user
+
+    person = Person.objects.get(username=new_person.username)
+
+    data = FoodEntry.objects.filter(personid=person.personid, date=new_date)
 
     s_water = 0
     s_sodium = 0
@@ -496,9 +604,13 @@ def dashboardMealPageView(request):
     return render(request, 'kidney/dashboardMeal.html', context)
 
 def dashboardNutrientsPageView(request):
-    new_date = request.POST.get('date')
-    data = FoodEntry.objects.filter(personid=1, date=new_date)  # Need to Figure Out Dynamic Pull
+    new_person = request.user
 
+    person = Person.objects.get(username=new_person.username)
+
+    new_date = request.POST.get('date')
+
+    data = FoodEntry.objects.filter(personid=person.personid, date=new_date)
     print(new_date)
 
     water = 0
