@@ -15,11 +15,11 @@ from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 def indexPageView(request):
-    if request.user:
-        new_user = request.user
+    if request.user.is_authenticated:
+        myuser = request.user
         context = {
-            'fName': new_user.firstname, 
-            'lName':new_user.lastname
+            'fName': myuser.first_name, 
+            'lName': myuser.last_name
         }
         return render(request, 'kidney/index.html', context)
         
@@ -107,7 +107,7 @@ def storeProfilePageView(request):
             'lName':lname
         }
 
-    return render(request, 'kidney/index.html', context)
+    return render(request, 'kidney/login.html', context)
 
 '''
 def storeProfilePageView(request):
@@ -586,6 +586,47 @@ def dashboardMealPageView(request):
         breakfast = {'nutrient' : b_cholesterol}
         lunch = {'nutrient' : l_cholesterol}
         dinner = {'nutrient' : l_cholesterol}
+
+        
+
+
+    # Sodium
+    if ((s_sodium + b_sodium + l_sodium + d_sodium) > 2300):
+        print("Sodium Levels are too high")
+
+
+    #Potassium
+    if ((s_k + b_k + l_k + d_k) > 3500):
+        print("Potassium Levels are too high")
+    
+    
+    #Phos
+    if ((s_phos + b_phos + l_phos + d_phos) > 3500):
+        print("Phosphorous Levels are too high")
+    
+
+    #Protein
+    kg = (person.weight * 45359237)
+    protein = (0.8 * kg)
+    if ((s_protein + b_protein + l_protein + d_protein) > protein):
+        print("Protein Levels are too high")
+    if ((s_protein + b_protein + l_protein + d_protein) < protein):
+        print("Protein Levels are too low")
+
+    
+    #Water
+    if (person.gender == "male"):
+        if ((s_water + b_water + l_water + d_water) < 3.7):
+            print("Water Levels are too low")
+
+    else:
+        if ((s_water + b_water + l_water + d_water) < 2.7):
+            print("Water Levels are too low")
+    
+    
+
+
+
 
     print(s_sugar)
     print(b_sugar)
