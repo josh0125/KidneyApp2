@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
+    
+    <form method="get" action="{% url 'FoodSearch' %}" name="formfood">
+        <label for='name'>Enter the food name:</label>
+        <input type="text" name='name' id='name'>
+        <br><br>
+        <!--
+        <label for='amount'>Enter the amount:</label>
+        <input type="text" name='amount' id='amount'>
+        <br><br>
+        -->
+
+        <button type="submit">Search</button>
+    </form> 
+</div>
+
+{% endblock %}  

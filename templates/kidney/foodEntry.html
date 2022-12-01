@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
+    
+    <form method="POST" name="formFoodEntry" action="{% url 'FoodEntrySubmit' %}">
+        {% csrf_token %}
+        <label for='date'>Enter the Date:</label>
+        <input type="date" name="date" id="date">
+        <br><br>
+        <label for="meal">Choose Your Meal:</label>
+
+        <select name="meal" id="meal">
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+            <option value="snack">Snack</option>
+        </select>
+    
+        <button type="submit">Submit</button>
+    </form> 
+</div>
+
+{% endblock %}  

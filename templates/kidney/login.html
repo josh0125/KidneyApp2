@@ -1,0 +1,30 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block basetitle %} Login 
+{% endblock %} {% block content %}
+<br><br><br><br><br>
+
+
+<div class="content" style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
+  <h3>Sign In</h3>
+
+  <form action="/signin/" method='post'>
+    {% csrf_token %}
+        <label for="">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter Username" Required>
+        <br>
+        <label for="">Password</label>
+        <input type="password" id="pass1" name="pass1" placeholder="Enter Password" Required>
+        <br>
+    
+        <button type="submit">Sign In</button>
+    </form>
+
+  <p>
+    Dont have an account? Sign Up Today!
+  </p>
+  <a href="{% url 'profile' %}" class="about-btn">Sign Up!<i class="bx bx-chevron-right"></i></a>
+</div>
+
+
+{% endblock %}

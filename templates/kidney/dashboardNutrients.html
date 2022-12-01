@@ -1,0 +1,67 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block basetitle %} Dashboard 
+{% endblock %} {% block content %}
+
+<div style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
+<form method="POST" name="dashboardDateSelect" action="{% url 'dashboardDateSelect' %}">
+    {% csrf_token %}
+    <label for="date">Choose Your Date:</label>
+    <input name='date' id='date' type='date'>
+
+    <button type="submit">Submit</button>
+</form> 
+</div>
+
+<!-- By Nutrient -->
+
+<div style="padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Water (mL)', 'Sodium(mg)', 'Protein (mg)', 'Potassium (mg)', 'Phos (mg)', 'Sugar (mg)', 'Cholesterol (mg)'],
+            datasets: [{
+                label: '# of Votes',
+                data: [{{nutrient.water}}, {{nutrient.sodium}}, {{nutrient.protein}}, {{nutrient.k}}, {{nutrient.phos}}, {{nutrient.sugar}}, {{nutrient.cholesterol}}],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }, {
+                type: 'bar',
+                label: 'Line Dataset',
+                data: [3700, 2300, 600, 3500, 1000, 200, 250], 
+                fill: false,
+                borderColor: 'rgba(54, 162, 235, 1)'
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    </script>
+
+          
+</div>
+
+{% endblock %}

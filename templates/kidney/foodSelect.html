@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">        
+    <p>Food Item: {{ food.name }}</p>
+    <p>Nutrient Info is in amounts of 100 grams</p>
+    {% for foods in food.list %}
+        <br>
+        <div>
+            <p>Name: {{ foods.description }}</p>
+            <p>Description Info: {{ foods.additional }}</p>
+            <p>Nutrient Info</p>
+            {% for nutrient in foods.nutrients %}
+                <p>{{ nutrient.name }}: {{ nutrient.amount }} {{ nutrient.unitName }}</p>
+            {% endfor %}
+        </div>
+        <br><br>
+        <form method="get" action="{% url 'FoodSelect' %}" name="formfood">
+            <input type="text" name='number' id='number' value={{foods.number}} hidden>
+            <input type="text" name='name' id='name' value={{ food.name }} hidden>
+    
+            <button type="submit">SELECT</button>
+        </form> 
+
+    {% endfor %}
+
+    
+    </div>
+</div>
+
+<div style="padding-top: 50px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
+    <a href="{% url 'food' %}">Search Other Item</a>
+</div>
+
+{% endblock %}  
