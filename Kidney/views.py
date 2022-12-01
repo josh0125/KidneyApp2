@@ -15,7 +15,16 @@ from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 def indexPageView(request):
-    return render(request, 'kidney/index.html')
+    if request.user:
+        new_user = request.user
+        context = {
+            'fName': new_user.firstname, 
+            'lName':new_user.lastname
+        }
+        return render(request, 'kidney/index.html', context)
+        
+    else:
+        return render(request, 'kidney/index.html')
 
 # Profile Views
 '''
@@ -40,6 +49,10 @@ def storeProfilePageView(request):
         new_person.age = request.POST.get(('age'))
         new_person.weight = request.POST.get(('weight'))
         new_person.height = request.POST.get(('height'))
+        new_person.username = request.POST.get('username')
+        new_person.password = request.POST.get('pass1')
+        new_person.race = request.POST.get('race')
+        new_person.gender = request.POST.get('gender')
 
         new_person.save()
 
