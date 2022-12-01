@@ -26,14 +26,11 @@
         <option value="creatinine">Creatinine</option>
         <option value="albumin">Albumin</option>
         <option value="bloodsugar">Blood Sugar</option>
-        <option value="cholesterol">Cholesterol</option>
         <option value="weight">Weight</option>
     </select>
 
     <button type="submit">Submit</button>
 </form> 
-{{ expected }}
-{% for dates in list %} {{ dates.date }} {% endfor %}
 <div>
   <canvas id="myChart" width="400" height="400"></canvas>
 <script> 
@@ -41,10 +38,10 @@ const ctx = document.getElementById('myChart').getContext('2d');
 const myChart = new Chart(ctx, { 
     type: 'line',
     data: {
-        labels: [1, 2, 3], 
+        labels: [{% for dates in list %} '{{ dates.date }}', {% endfor %}], 
         datasets: [{ 
             label: 'Current Results',
-            data: [100, 25, 75],
+            data: [{% for dates in list %} {{ dates.nutrient_amount }}, {% endfor %}],
         
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -66,7 +63,7 @@ const myChart = new Chart(ctx, {
         }, {
             type: 'line',
             label: 'Expected Amounts',
-            data: [5.2, 10, 3], 
+            data: [{% for dates in list %}{{expected}}, {% endfor %}], 
             fill: false,
             borderColor: 'rgba(54, 162, 235, 1)'
         }]

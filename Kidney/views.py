@@ -854,7 +854,7 @@ def dashboardVitalsPageView(request):
             list.append({ 'nutrient_amount' : dates.Na, 'date' : dates.Date})
 
     elif nutrient_type == 'creatinine' :
-        if person.gender == male:
+        if person.gender == 'male':
             expected = 1.3
         else:
             expected = 1.1
