@@ -26,6 +26,9 @@ def indexPageView(request):
     else:
         return render(request, 'kidney/index.html')
 
+def aboutPageView(request):
+    return render(request, 'kidney/about.html')
+
 # Profile Views
 '''
 def profilePageView(request):

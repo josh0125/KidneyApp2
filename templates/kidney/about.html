@@ -1,0 +1,107 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block basetitle %} About 
+{% endblock %} {% block content %}
+
+  <!-- ======= Hero Section ======= -->
+
+  <section id="hero">
+
+    
+    <div class="hero-container" data-aos="fade-up">
+      <h1>About Us</h1>
+      <h2>We are determined to help you live a healthy life</h2>
+      <a href="#about" class="btn-get-started scrollto"><i class="bx bx-chevrons-down"></i></a>
+    </div>
+    
+
+  </section><!-- End Hero -->
+
+ <main id="main"> 
+  
+
+
+ 
+    <section id="counts" class="counts  section-bg">
+
+
+
+      <div class="container">
+
+        <div class="section-title" data-aos="fade-in" data-aos-delay="100">
+          <h2>CKD</h2>
+          <p>Chronic Kidney Disease (CKD) occurs when your kidneys are damaged and can't filter blood properly. CKD gets worse over time and can lead to kidney failure.
+            You are more likely to develop CKD if you have Diabetes, High Blood Pressure, Heart Disease, or have a Family History of kidney failure. Chances of getting CKD
+            increase as you age, and African Americans, Hispanics, and Native Americans are at a greater risk for CKD.
+          </p>
+        </div>
+
+        <div class="row no-gutters">
+
+          <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
+            <div class="count-box">
+              <i class="bi bi-people"></i>
+              <span data-purecounter-start="0" data-purecounter-end="37" data-purecounter-duration="1" class="purecounter"></span>
+              <p><strong>More than 37 Million</strong> Americans have Chronic Kidney Disease.</p>
+            </div>
+
+          <img href="{% static 'assets/img/1in7.jpg' %}" alt="1in7">
+          </div>
+
+          <div class="section-title" data-aos="fade-in" data-aos-delay="100">
+            <h2>Effects of CKD</h2>
+            <p>CKD can have minor symptoms such as chest pain, vomitting, nausea, and headaches. Though these symptoms seem "normal", CKD can also lead to major health problems.
+              Kidney failure, Heart disease, and High blood pressure are all problems that can be caused by chronic kidney disease. Because of these, people with CKD are at risk for having
+              a stroke or a heart attack.
+            </p>
+          
+          </div>
+
+          <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
+            <div class="count-box">
+              <i class="bi bi-journal-richtext"></i>
+              <span data-purecounter-start="0" data-purecounter-end="20" data-purecounter-duration="1" class="purecounter"></span>
+              <p><strong>20% of People</strong> with High Blood Pressure, and 30% of people with Diabetes have CKD.</p>
+            </div>
+          </div>
+
+
+          <div class="section-title" data-aos="fade-in" data-aos-delay="100">
+            <h2>Our Mission</h2>
+            <p>Though CKD is a major problem and the effects can be severe, people with CKD can reduce their risk of contracting these symptoms and health problems by eating right and living a healthy
+              lifestyle. Developing a meal plan, exercise, controling your blood pressure, and sufficient sleep are all ways people can reduce the risk. Though these solutions sound simple, it is 
+              hard to maintain these habits without some help. We at Kidney Help are here to assist you with making these lifestyle changes. With us, you will be able to see details of your
+              diet, exercise, and visits to the doctors office. We at Kidney Help are determined to be beside you during CKD.
+            </p>
+          
+          </div>
+
+          
+
+    
+
+          
+
+        </div>
+
+      </div>
+    </section><!-- End Counts Section -->
+
+      {% if user.is_authenticated %}
+
+      {% else %}
+          <!-- ======= Cta Section ======= -->
+          <section id="cta" class="cta">
+            <div class="container" data-aos="zoom-in">
+
+              <div class="text-center">
+                <h3>Improve Your Health</h3>
+                <p>Stay in control of your diet and exercise and see how much you are improving. Sign up today to live healthier<p>
+                <a class="cta-btn" href="{% url 'login' %}">Sign Up!</a>
+              </div>
+
+            </div>
+          </section><!-- End Cta Section -->
+        {% endif %}
+
+{% endblock %}
