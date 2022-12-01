@@ -30,6 +30,9 @@ def indexPageView(request):
     '''
     return render(request, 'kidney/index.html')
     '''
+def aboutPageView(request):
+    return render(request, 'kidney/about.html')
+
 # Profile Views
 '''
 def profilePageView(request):
