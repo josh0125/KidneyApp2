@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'kidney_test4',
         'USER': 'postgres',
-        'PASSWORD': 'NEWYORKUT1CAM1SS1ON',
+        'PASSWORD': getpass(),
         'HOST': 'localhost'
     }
 }
