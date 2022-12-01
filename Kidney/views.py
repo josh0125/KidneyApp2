@@ -15,11 +15,11 @@ from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 def indexPageView(request):
-    if request.user:
-        new_user = request.user
+    if request.user.is_authenticated:
+        myuser = request.user
         context = {
-            'fName': new_user.firstname, 
-            'lName':new_user.lastname
+            'fName': myuser.first_name, 
+            'lName': myuser.last_name
         }
         return render(request, 'kidney/index.html', context)
         
