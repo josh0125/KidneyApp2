@@ -17,6 +17,7 @@ urlpatterns = [
 
     path('profile', profilePageView, name='profile'),
     path('storeprofile', storeProfilePageView, name='storeprofile'),
+    path('editprofile', storeProfilePageView, name='editprofile'),
 
     path('labvitals', labVitalsPageView, name='labvitals'),
     path('storevitals', storeVitalsPageView, name='storevitals'),
