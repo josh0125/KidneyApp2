@@ -57,45 +57,53 @@ def profilePageView(request):
         race = person.race
         gender = person.gender
 
-        print(len(person.morbidities.all()))
-
         morb = []
 
         if len(person.morbidities.all()) == 1 :
             for m in person.morbidities.all() :
                 name1 = m.name
                 date1 = m.datediagnosed
-                print(name)
-            name2 = 0
-            date2 = 0
-        elif len(person.morbidities.all()) == 2 :
+            name2 = ''
+            date2 = ''
+        elif len(person.morbidities.all()) >= 2 :
             for m in person.morbidities.all() :
                 name = m.name
                 date = m.datediagnosed
                 print(name)
                 morb.append({'name' : name, 'date' : date})
             
-            name1 = morb[0].name
-            name2 = morb[1].name
-            date1 = morb[0].date
-            date2 = morb[1].date
+            print(morb)
+            print(morb[0]['date'])
+            print(morb[1]['date'])
+            name1 = morb[0]['name']
+            name2 = morb[1]['name']
+            date1 = morb[0]['date']
+            date2 = morb[1]['date']
         else:
-            name1 = 0
-            date1 = 0
-            name2 = 0
-            date2 = 0
-            print(m1)
+            name1 = ''
+            date1 = ''
+            name2 = ''
+            date2 = ''
+
+        checked1 = ''
+        checked2 = ''
 
         if name1 == 'High Blood Pressure' :
-            checked1 = checked
+            checked1 = 'checked'
 
-        #if ((name2 == 'Diabetes') or (name1 == 'Diabetes')):
-        #    checked1 = checked
-    
+        if name2 == 'Diabetes':
+            checked2 = 'checked'
+        elif name1 == 'Diabetes':
+            checked2 = 'checked'
+
+
+        date1 = str(date1)
+        date2 = str(date2)
+        print(date2)
 
 
         data = {'fname': fname, 'lname' : lname, 'phone' : phone, 'email' : email, 'address' :address, 'city' : city, 'state' : state, 'zip' : zip, \
-             'age' : age, 'weight' :weight, 'height' :height, 'username' : username , 'password': password, 'race': race, 'gender': gender}
+             'age' : age, 'weight' :weight, 'height' :height, 'username' : username , 'password': password, 'race': race, 'gender': gender, 'checked1' : checked1, 'checked2': checked2, 'date1': date1, 'date2': date2}
 
         context = {
             'profile' : data
@@ -127,6 +135,15 @@ def storeProfilePageView(request):
         new_person.gender = request.POST.get('gender')
 
         new_person.save()
+
+        if (request.POST.get('HBP')):
+            new_Morbidity = Morbidity.objects.create(name='High Blood Pressure', datediagnosed=request.POST.get('bloodDate'))
+            print(new_Morbidity)
+            new_person.morbidities.add(new_Morbidity)
+
+        if (request.POST.get('DIA')):
+            new_Morbidity = Morbidity.objects.create(name='Diabetes', datediagnosed=request.POST.get('diabetesDate'))
+            new_person.morbidities.add(new_Morbidity)
 
         context = {
                 'fName': request.POST.get('fName'), 
@@ -731,9 +748,21 @@ def dashboardNutrientsPageView(request):
 
     nutrients = {'water' : water, 'sodium' : sodium, 'protein' : protein, 'k' : k, 'phos' : phos, 'sugar' : sugar, 'cholesterol' : cholesterol}
 
+    # Protein Calculations
+    kg = float(person.weight) * 0.453592
+
+    daily_protein = kg * 0.6
+
+    if person.weight == 'male':
+        daily_water = 3700
+    else:
+        daily_water = 2700
+
     context = {
         'data': data,
         'nutrient' : nutrients,
+        'daily_protein' : daily_protein,
+        'daily_water' : daily_water
     }
 
     return render(request, 'kidney/dashboardNutrients.html', context)
@@ -791,4 +820,71 @@ def signout(request):
     logout(request)
     messages.success(request, "Logged out successfully.")
     return redirect('index')
+
+
+# Vitals Overtime
+def dashboardVitalsPageView(request):
+    
+    new_person = request.user
+
+    person = Person.objects.get(username=new_person.username)
+
+    data = LabVitals.objects.filter(personid=person.personid)
+
+    nutrient_type = request.POST.get('nutrient')
+
+    list = []
+    expected = 0
+    print(nutrient_type)
+
+    if nutrient_type == 'k' :
+        print('working')
+        expected = 5.2
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.K, 'date' : dates.Date})
+        
+    elif nutrient_type == 'phos' :
+        expected = 4.5
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.Phos, 'date' : dates.Date})
+
+    elif nutrient_type == 'na' :
+        expected = 145
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.Na, 'date' : dates.Date})
+
+    elif nutrient_type == 'creatinine' :
+        if person.gender == male:
+            expected = 1.3
+        else:
+            expected = 1.1
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.Creatinine, 'date' : dates.Date})
+
+    elif nutrient_type == 'albumin' :
+        expected = 3.5
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.Albumin, 'date' : dates.Date})
+
+    elif nutrient_type == 'bloodsugar' :
+        expected = 100
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.BloodSugar, 'date' : dates.Date})
+
+    elif nutrient_type == 'weight' :
+        expected = 0
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.Weight, 'date' : dates.Date})
+
+    print(expected)
+    print(list)
+
+    context = {
+        'data': data,
+        'list' : list,
+        'expected' : expected,
+    }
+
+    return render(request, 'kidney/dashboardVitals.html', context)
+
 

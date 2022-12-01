@@ -134,17 +134,17 @@
 
       <fieldset style="size: 0px">
         <legend>Morbidities</legend>
-      <input type="checkbox" id="blood" name="HBP">
+      <input type="checkbox" id="blood" name="HBP" {{profile.checked1}}>
       <label for="blood">High Blood Pressure</label> <br>
 
       <label for="bloodDate">Date Aquired</label>
-      <input type="date" id="bloodDate" name='bloodDate'><br>
+      <input type="date" id="bloodDate" name='bloodDate' value={{ profile.date1 }} ><br>
 
-      <input type="checkbox" id="diabetes" name="DIA" value="Diabetes">
+      <input type="checkbox" id="diabetes" name="DIA" value="Diabetes" {{ profile.checked2 }}>
       <label for="diabetes">Diabetes</label> <br>
 
       <label for="diabetesDate">Date Aquired</label>
-      <input type="date" id="diabetesDate" name='diabetesDate'>
+      <input type="date" id="diabetesDate" name='diabetesDate' value={{ profile.date2 }}>
 
     </fieldset><br><br>
 
@@ -155,7 +155,7 @@
   </div>
 </div>
 
-
+<p>{{profile.date1}}</p>
 {% else %}
 
 <div class="row mt-3 pt-3">
