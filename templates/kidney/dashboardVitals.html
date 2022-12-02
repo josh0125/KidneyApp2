@@ -1,5 +1,7 @@
 {% extends 'base.html' %} 
 {% load static %}
+
+
 {% block basetitle %} Dashboard 
 {% endblock %} {% block content %}
 <!--
@@ -16,26 +18,37 @@
 -->
 
 <div style="padding-top: 100px">
-    <div class=row style="padding-right: 40px">
+    <div class='row' style="padding-right: 40px">
 
-<div class="col-md-6 mb-4" style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
-<form method="POST" name="dashboardVitals" action="{% url 'dashboardVitals' %}" >
-    {% csrf_token %}
+        <div class="col-md-6 mb-4" style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px; text-align: center;">
+            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Lab Vitals by Type</h3>
+            <div>Select the type of nutrient from Lab Vitals. The chart will display the dates and amounts for that nutrient.</div>
+            <div style="padding-top: 50px;">
+                <form method="POST" name="dashboardVitals" action="{% url 'dashboardVitals' %}" >
+                    {% csrf_token %}
 
-    <br>
-    <select name="nutrient" id="nutrient">
-        <option value="k">Potassium</option>
-        <option value="phos">Phos</option>
-        <option value="na">Sodium</option>
-        <option value="creatinine">Creatinine</option>
-        <option value="albumin">Albumin</option>
-        <option value="bloodsugar">Blood Sugar</option>
-        <option value="weight">Weight</option>
-    </select>
 
-    <button type="submit">Submit</button>
-</form> 
-</div>
+                    
+                    <div class="mb-4">
+                            <label for="nutrient">Choose Your Nutrients:</label>
+                            <select name="nutrient" id="nutrient">
+                                <option value={{ nutrient_type }}>{{ nutrient_name }}</option>
+                                <option value="k">Potassium</option>
+                                <option value="phos">Phosphorus</option>
+                                <option value="na">Sodium</option>
+                                <option value="creatinine">Creatinine</option>
+                                <option value="albumin">Albumin</option>
+                                <option value="bloodsugar">Blood Sugar</option>
+                                <option value="weight">Weight</option>
+                            </select>
+                        </div>
+    
+
+                    <button type="submit" class="btn btn-primary" style="background:#67b0d1;">Submit</button>
+                </form> 
+            </div>
+        </div>
+    
 
 <div class="newcontainer col-md-6 mb-4" style="padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
 
