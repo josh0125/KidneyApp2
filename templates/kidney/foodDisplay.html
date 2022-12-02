@@ -1,38 +1,51 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">        
-    <p>Food Item: {{ food.name }}</p>
-    {% for foods in food.all %}
 
-        <div>{{ foods.name }}: {{ foods.amount }}</div>
+<div style="padding-top: 125px; padding-left: 50px; padding-right: 50px;">   
+    <section class="h-100 h-custom" style="background-color: #fff;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-8 col-xl-6">
+                    <div class="card rounded-3">
+                        <div class="card-body p-4 p-md-5">
+                            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Food Item: {{ food.name }}</h3>     
+                                {% for foods in food.all %}
 
-    {% endfor %}
-    </div>
+                                    <div>{{ foods.name }}: {{ foods.amount }}</div>
+
+                                {% endfor %}
+                            <br><br>
+                            <form method="get" action="{% url 'FoodTotal' %}" name="formfood">
+                                <input type="text" name='number' id='number' value={{food.number}} hidden>
+                                <input type="text" name='name' id='name' value={{food.name}} hidden>
+                                <div class="form-outline mb-4">
+                                    <input type="text" name='amount' id='amount' value={{ food.amount }} class="form-control">
+                                    <label for="amount" class="form-label">Amount: *Nutrient Info is in amounts of 100 grams</label>
+                                </div>
+                            
+                                <input type=text name='water' value={{ food.all.0.amount }} hidden>
+                                <input type=text name='cholesterol' value={{ food.all.1.amount }} hidden>
+                                <input type=text name='sodium' value={{ food.all.2.amount }} hidden>
+                                <input type=text name='phosphorus' value={{ food.all.3.amount }} hidden>
+                                <input type=text name='sugars' value={{ food.all.4.amount }} hidden>
+                                <input type=text name='potassium' value={{ food.all.5.amount }} hidden>
+                                <input type=text name='protein' value={{ food.all.6.amount }} hidden>
+                            
+                            
+                                <button type="submit" class="btn btn-success btn-lg mb-1" style="background:#67b0d1;">Add</button>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
 </div>
-<div style="padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
-<form method="get" action="{% url 'FoodTotal' %}" name="formfood">
-    <input type="text" name='number' id='number' value={{food.number}} hidden>
-    <input type="text" name='name' id='name' value={{food.name}} hidden>
-    
-    <label for="amount">Amount: </label>
-    <input type="text" name='amount' id='amount' value={{ food.amount }}>
-
-    <input type=text name='water' value={{ food.all.0.amount }} hidden>
-    <input type=text name='cholesterol' value={{ food.all.1.amount }} hidden>
-    <input type=text name='sodium' value={{ food.all.2.amount }} hidden>
-    <input type=text name='phosphorus' value={{ food.all.3.amount }} hidden>
-    <input type=text name='sugars' value={{ food.all.4.amount }} hidden>
-    <input type=text name='potassium' value={{ food.all.5.amount }} hidden>
-    <input type=text name='protein' value={{ food.all.6.amount }} hidden>
-
-
-    <button type="submit">Add</button>
-</form> 
-</div>
-<div style="padding-top: 50px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
-    <a href="{% url 'food' %}">Add Other Item to Meal</a> <br><br>
-    <a href="{% url 'dashboard' %}">Complete Meal</a>
+<div style="text-align: center; padding-bottom: 50px;">
+    <a href="{% url 'food' %}" class="btn btn-success btn-lg mb-1" style="background:#67b0d1;">Add Other Item to Meal</a> <br><br>
+    <a href="{% url 'dashboard' %}" class="btn btn-success btn-lg mb-1" style="background:#67b0d1;">Complete Meal</a>
 
 </div>
 
