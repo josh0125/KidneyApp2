@@ -8,6 +8,7 @@ from .views import FoodPageView, FoodSearchPageView, FoodSelectPageView, FoodTot
 from .views import dashboardPageView, dashboardMealPageView, dashboardNutrientsPageView
 from .views import JournalPageView, storeJournalPageView
 from .views import ExercisePageView, storeExercisePageView
+from .views import dashboardVitalsPageView
 # new
 from .views import loginPageView
 from . import views
@@ -20,6 +21,7 @@ urlpatterns = [
 
     path('profile', profilePageView, name='profile'),
     path('storeprofile', storeProfilePageView, name='storeprofile'),
+    path('editprofile', storeProfilePageView, name='editprofile'),
 
     path('labvitals', labVitalsPageView, name='labvitals'),
     path('storevitals', storeVitalsPageView, name='storevitals'),
@@ -38,6 +40,7 @@ urlpatterns = [
     path("dashboardMealSelect", dashboardMealPageView, name='dashboardMealSelect'),
     path("dashboardNutrients", dashboardNutrientsPageView, name='dashboardNutrients'),
     path("dashboardDateSelect", dashboardNutrientsPageView, name='dashboardDateSelect'),
+    path("dashboardVitals", dashboardVitalsPageView, name='dashboardVitals'),
 
     path("journal", JournalPageView, name='journal'), 
     path("storejournal", storeJournalPageView, name='storejournal'),

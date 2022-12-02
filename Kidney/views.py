@@ -15,17 +15,19 @@ from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 def indexPageView(request):
-    if request.user.is_authenticated:
-        myuser = request.user
+    if request.user:
+        new_user = request.user
         context = {
-            'fName': myuser.first_name, 
-            'lName': myuser.last_name
+            'fName': new_user.firstname, 
+            'lName':new_user.lastname
         }
         return render(request, 'kidney/index.html', context)
         
     else:
         return render(request, 'kidney/index.html')
-
+    '''
+    return render(request, 'kidney/index.html')
+    '''
 def aboutPageView(request):
     return render(request, 'kidney/about.html')
 
@@ -35,11 +37,89 @@ def profilePageView(request):
     return render(request, 'kidney/profilepopup.html')
 '''
 def profilePageView(request):
-    return render(request, 'kidney/profile.html')
+    if request.user.is_authenticated :
+        new_person = request.user
+
+        person = Person.objects.get(username=new_person.username)
+
+        fname = person.first_name
+        lname = person.last_name
+        phone = person.phone
+        email = person.email
+        address = person.address
+        city = person.city
+        state = person.state
+        zip = person.zip
+        age = person.age
+        weight = person.weight
+        height = person.height
+        username = person.username
+        password = person.password
+        race = person.race
+        gender = person.gender
+
+        morb = []
+
+        if len(person.morbidities.all()) == 1 :
+            for m in person.morbidities.all() :
+                name1 = m.name
+                date1 = m.datediagnosed
+            name2 = ''
+            date2 = ''
+        elif len(person.morbidities.all()) >= 2 :
+            for m in person.morbidities.all() :
+                name = m.name
+                date = m.datediagnosed
+                print(name)
+                morb.append({'name' : name, 'date' : date})
+            
+            print(morb)
+            print(morb[0]['date'])
+            print(morb[1]['date'])
+            name1 = morb[0]['name']
+            name2 = morb[1]['name']
+            date1 = morb[0]['date']
+            date2 = morb[1]['date']
+        else:
+            name1 = ''
+            date1 = ''
+            name2 = ''
+            date2 = ''
+
+        checked1 = ''
+        checked2 = ''
+
+        if name1 == 'High Blood Pressure' :
+            checked1 = 'checked'
+
+        if name2 == 'Diabetes':
+            checked2 = 'checked'
+        elif name1 == 'Diabetes':
+            checked2 = 'checked'
+
+
+        date1 = str(date1)
+        date2 = str(date2)
+        print(date2)
+
+
+        data = {'fname': fname, 'lname' : lname, 'phone' : phone, 'email' : email, 'address' :address, 'city' : city, 'state' : state, 'zip' : zip, \
+             'age' : age, 'weight' :weight, 'height' :height, 'username' : username , 'password': password, 'race': race, 'gender': gender, 'checked1' : checked1, 'checked2': checked2, 'date1': date1, 'date2': date2}
+
+        context = {
+            'profile' : data
+        }
+
+        return render(request, 'kidney/profile.html', context)
+
+    else:
+        return render(request, 'kidney/profile.html')
 
 def storeProfilePageView(request):
-    if request.method == 'POST':
-        new_person = Person()
+    if request.user.is_authenticated :
+        person = request.user
+
+        new_person = Person.objects.get(username=person.username)
 
         new_person.first_name = request.POST.get('fName')
         new_person.last_name = request.POST.get('lName')
@@ -52,8 +132,6 @@ def storeProfilePageView(request):
         new_person.age = request.POST.get(('age'))
         new_person.weight = request.POST.get(('weight'))
         new_person.height = request.POST.get(('height'))
-        new_person.username = request.POST.get('username')
-        new_person.password = request.POST.get('pass1')
         new_person.race = request.POST.get('race')
         new_person.gender = request.POST.get('gender')
 
@@ -61,51 +139,89 @@ def storeProfilePageView(request):
 
         if (request.POST.get('HBP')):
             new_Morbidity = Morbidity.objects.create(name='High Blood Pressure', datediagnosed=request.POST.get('bloodDate'))
+            print(new_Morbidity)
             new_person.morbidities.add(new_Morbidity)
 
         if (request.POST.get('DIA')):
             new_Morbidity = Morbidity.objects.create(name='Diabetes', datediagnosed=request.POST.get('diabetesDate'))
             new_person.morbidities.add(new_Morbidity)
 
-       
-
-    
-        username = request.POST['username']
-        fname = request.POST['fName']
-        lname = request.POST['lName']
-        email = request.POST['email']
-        pass1 = request.POST['pass1']
-        pass2 = request.POST['pass2']
-
-        # if User.objects.filter(username=username):
-        #     messages.error(request, "Username already exist! Please enter another username")
-        #     return redirect('profile')
-        
-        # if User.objects.filter(email=email):
-        #     messages.error(request, "Email already registered!")
-        #     return redirect('profile')
-
-        # if len(username)>10:
-        #     messages.error(request, "Username must be under 10 characters")
-        
-        # if pass1 != pass2 :
-        #     messages.error(request, "Passwords didn't match!")
-
-        # if not username.isalnum():
-        #     messages.error(request, "Username must include at least 1 letter")
-        #     return redirect('profile')
-
-
-        myuser = User.objects.create_user(username, email, pass1)
-        myuser.first_name = fname
-        myuser.last_name = lname
-
-        myuser.save()
-
         context = {
-            'fName':fname, 
-            'lName':lname
-        }
+                'fName': request.POST.get('fName'), 
+                'lName': request.POST.get('lName')
+            }
+
+        return render(request, 'kidney/index.html', context)
+
+    else:
+        if request.method == 'POST':
+            new_person = Person()
+
+            new_person.first_name = request.POST.get('fName')
+            new_person.last_name = request.POST.get('lName')
+            new_person.phone = request.POST.get('phone')
+            new_person.email = request.POST.get('email')
+            new_person.address = request.POST.get('address')
+            new_person.city = request.POST.get('city')
+            new_person.state = request.POST.get('state')
+            new_person.zip = request.POST.get('zipcode')
+            new_person.age = request.POST.get(('age'))
+            new_person.weight = request.POST.get(('weight'))
+            new_person.height = request.POST.get(('height'))
+            new_person.username = request.POST.get('username')
+            new_person.password = request.POST.get('pass1')
+            new_person.race = request.POST.get('race')
+            new_person.gender = request.POST.get('gender')
+
+            new_person.save()
+
+            if (request.POST.get('HBP')):
+                new_Morbidity = Morbidity.objects.create(name='High Blood Pressure', datediagnosed=request.POST.get('bloodDate'))
+                new_person.morbidities.add(new_Morbidity)
+
+            if (request.POST.get('DIA')):
+                new_Morbidity = Morbidity.objects.create(name='Diabetes', datediagnosed=request.POST.get('diabetesDate'))
+                new_person.morbidities.add(new_Morbidity)
+
+            
+
+
+            username = request.POST['username']
+            fname = request.POST['fName']
+            lname = request.POST['lName']
+            email = request.POST['email']
+            pass1 = request.POST['pass1']
+            pass2 = request.POST['pass2']
+
+            # if User.objects.filter(username=username):
+            #     messages.error(request, "Username already exist! Please enter another username")
+            #     return redirect('profile')
+            
+            # if User.objects.filter(email=email):
+            #     messages.error(request, "Email already registered!")
+            #     return redirect('profile')
+
+            # if len(username)>10:
+            #     messages.error(request, "Username must be under 10 characters")
+            
+            # if pass1 != pass2 :
+            #     messages.error(request, "Passwords didn't match!")
+
+            # if not username.isalnum():
+            #     messages.error(request, "Username must include at least 1 letter")
+            #     return redirect('profile')
+
+
+            myuser = User.objects.create_user(username, email, pass1)
+            myuser.first_name = fname
+            myuser.last_name = lname
+
+            myuser.save()
+
+            context = {
+                'fName':fname, 
+                'lName':lname
+            }
 
     return render(request, 'kidney/index.html', context)
 
@@ -587,6 +703,47 @@ def dashboardMealPageView(request):
         lunch = {'nutrient' : l_cholesterol}
         dinner = {'nutrient' : l_cholesterol}
 
+        
+
+
+    # Sodium
+    if ((s_sodium + b_sodium + l_sodium + d_sodium) > 2300):
+        print("Sodium Levels are too high")
+
+
+    #Potassium
+    if ((s_k + b_k + l_k + d_k) > 3500):
+        print("Potassium Levels are too high")
+    
+    
+    #Phos
+    if ((s_phos + b_phos + l_phos + d_phos) > 3500):
+        print("Phosphorous Levels are too high")
+    
+
+    #Protein
+    kg = (person.weight * 45359237)
+    protein = (0.8 * kg)
+    if ((s_protein + b_protein + l_protein + d_protein) > protein):
+        print("Protein Levels are too high")
+    if ((s_protein + b_protein + l_protein + d_protein) < protein):
+        print("Protein Levels are too low")
+
+    
+    #Water
+    if (person.gender == "male"):
+        if ((s_water + b_water + l_water + d_water) < 3.7):
+            print("Water Levels are too low")
+
+    else:
+        if ((s_water + b_water + l_water + d_water) < 2.7):
+            print("Water Levels are too low")
+    
+    
+
+
+
+
     print(s_sugar)
     print(b_sugar)
     print(l_sugar)
@@ -633,9 +790,21 @@ def dashboardNutrientsPageView(request):
 
     nutrients = {'water' : water, 'sodium' : sodium, 'protein' : protein, 'k' : k, 'phos' : phos, 'sugar' : sugar, 'cholesterol' : cholesterol}
 
+    # Protein Calculations
+    kg = float(person.weight) * 0.453592
+
+    daily_protein = kg * 0.6
+
+    if person.weight == 'male':
+        daily_water = 3700
+    else:
+        daily_water = 2700
+
     context = {
         'data': data,
         'nutrient' : nutrients,
+        'daily_protein' : daily_protein,
+        'daily_water' : daily_water
     }
 
     return render(request, 'kidney/dashboardNutrients.html', context)
@@ -693,4 +862,71 @@ def signout(request):
     logout(request)
     messages.success(request, "Logged out successfully.")
     return redirect('index')
+
+
+# Vitals Overtime
+def dashboardVitalsPageView(request):
+    
+    new_person = request.user
+
+    person = Person.objects.get(username=new_person.username)
+
+    data = LabVitals.objects.filter(personid=person.personid)
+
+    nutrient_type = request.POST.get('nutrient')
+
+    list = []
+    expected = 0
+    print(nutrient_type)
+
+    if nutrient_type == 'k' :
+        print('working')
+        expected = 5.2
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.K, 'date' : dates.Date})
+        
+    elif nutrient_type == 'phos' :
+        expected = 4.5
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.Phos, 'date' : dates.Date})
+
+    elif nutrient_type == 'na' :
+        expected = 145
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.Na, 'date' : dates.Date})
+
+    elif nutrient_type == 'creatinine' :
+        if person.gender == 'male':
+            expected = 1.3
+        else:
+            expected = 1.1
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.Creatinine, 'date' : dates.Date})
+
+    elif nutrient_type == 'albumin' :
+        expected = 3.5
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.Albumin, 'date' : dates.Date})
+
+    elif nutrient_type == 'bloodsugar' :
+        expected = 100
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.BloodSugar, 'date' : dates.Date})
+
+    elif nutrient_type == 'weight' :
+        expected = 0
+        for dates in data:
+            list.append({ 'nutrient_amount' : dates.Weight, 'date' : dates.Date})
+
+    print(expected)
+    print(list)
+
+    context = {
+        'data': data,
+        'list' : list,
+        'expected' : expected,
+    }
+
+    return render(request, 'kidney/dashboardVitals.html', context)
+
 
