@@ -1,35 +1,47 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">        
-    <p>Food Item: {{ food.name }}</p>
-    <p>Nutrient Info is in amounts of 100 grams</p>
-    {% for foods in food.list %}
-        <br>
-        <div>
-            <p>Name: {{ foods.description }}</p>
-            <p>Description Info: {{ foods.additional }}</p>
-            <p>Nutrient Info</p>
-            {% for nutrient in foods.nutrients %}
-                <p>{{ nutrient.name }}: {{ nutrient.amount }} {{ nutrient.unitName }}</p>
-            {% endfor %}
+<div style="padding-top: 75px; padding-left: 50px; padding-right: 50px; text-align: center;">
+    <section class="h-100 h-custom" style="background-color: #fff;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-8 col-xl-6">
+              <div class="card rounded-3">
+                <div class="card-body p-4 p-md-5">
+                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Food Item: {{ food.name }}</h3>    
+                    
+                    {% for foods in food.list %}
+                    
+                                    <p>Name: {{ foods.description }}</p>
+                                    <p>Description Info: {{ foods.additional }}</p>
+                                    <div style="width: 500px; color:#67b0d1; font-size: 1rem; padding-bottom: 25px;">
+                                        
+                                            <p>Nutrient Info</p>
+                                            {% for nutrient in foods.nutrients %}
+                                                <div>{{ nutrient.name }}: {{ nutrient.amount }} {{ nutrient.unitName }}</div>
+                                            {% endfor %}
+                                    </div>
+                                    <form method="get" action="{% url 'FoodSelect' %}" name="formfood">
+                                        <input type="text" name='number' id='number' value={{foods.number}} hidden>
+                                        <input type="text" name='name' id='name' value={{ food.name }} hidden>
+                                
+                                        <button type="submit" class="btn btn-success btn-lg mb-1" style="background:#67b0d1;">Select</button>
+                                    </form> 
+                                    <hr />
+
+                    {% endfor %}
+
+                    
+                </div>
+            </div>
+          </div>
         </div>
-        <br><br>
-        <form method="get" action="{% url 'FoodSelect' %}" name="formfood">
-            <input type="text" name='number' id='number' value={{foods.number}} hidden>
-            <input type="text" name='name' id='name' value={{ food.name }} hidden>
-    
-            <button type="submit">SELECT</button>
-        </form> 
-
-    {% endfor %}
-
-    
-    </div>
+      </div>
+    </section>
 </div>
 
-<div style="padding-top: 50px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
-    <a href="{% url 'food' %}">Search Other Item</a>
+<div style="padding-left: 50px; padding-right: 50px; padding-bottom: 50px; text-align: center;">
+    <a href="{% url 'food' %}" class="btn btn-success btn-lg mb-1" style="background:#67b0d1;">Search Other Item</a>
 </div>
 
 {% endblock %}  
