@@ -22,11 +22,11 @@ from decimal import Decimal
 # Create your views here.
 
 def indexPageView(request):
-    if request.user.is_authenticated:
+    if request.user:
         new_user = request.user
         context = {
-            'fName': new_user.first_name, 
-            'lName':new_user.last_name
+            'fName': new_user.firstname, 
+            'lName':new_user.lastname
         }
         return render(request, 'kidney/index.html', context)
         
@@ -808,6 +808,8 @@ def dashboardMealPageView(request):
     print(b_sugar)
     print(l_sugar)
     print(d_sugar)
+
+
 
     
     context = {
