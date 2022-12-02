@@ -22,11 +22,11 @@ from decimal import Decimal
 # Create your views here.
 
 def indexPageView(request):
-    if request.user.is_authenticated:
-        myuser = request.user
+    if request.user:
+        new_user = request.user
         context = {
-            'fName': myuser.first_name, 
-            'lName': myuser.last_name
+            'fName': new_user.firstname, 
+            'lName':new_user.lastname
         }
         return render(request, 'kidney/index.html', context)
         
@@ -786,16 +786,12 @@ def dashboardMealPageView(request):
     
 
     #Protein
-    prot_amt = s_protein + b_protein + l_protein + d_protein
     kg = (person.weight * 45359237)
-    kgconversion = 0.8
-    protein = (Decimal(kgconversion) * kg)
-    if (Decimal(prot_amt)) > protein:
-        msg = EmailMessage()
-        msg['subject'] = 'Kidney Help'
-        msg['from'] = email_sender
-        msg['to'] = email_receiver
-        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Protein levels are too High. Please log into KidneyHelp to see your consumption levels for " + new_date + ". Thank You and have a nice day! \n\n\n -KidneyHelp")
+    protein = (0.8 * kg)
+    if ((s_protein + b_protein + l_protein + d_protein) > protein):
+        print("Protein Levels are too high")
+    if ((s_protein + b_protein + l_protein + d_protein) < protein):
+        print("Protein Levels are too low")
 
 
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
