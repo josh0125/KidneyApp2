@@ -39,7 +39,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ['https://web-production-1ea3.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://kidneytracker.up.railway.app']
 
 
 # Application definition
