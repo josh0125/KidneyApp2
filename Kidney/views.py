@@ -350,13 +350,13 @@ def FoodEntrySubmitPageView(request):
 
     new_foodEntry.save()
 
-    return render(request, 'kidney/FoodSearch.html')
+    return render(request, 'kidney/foodSearch.html')
 
 
 # Food Views
 
 def FoodPageView(request) :
-    return render(request, 'kidney/FoodSearch.html')
+    return render(request, 'kidney/foodSearch.html')
 
 
 def FoodSearchPageView(request) :
