@@ -22,11 +22,11 @@ from decimal import Decimal
 # Create your views here.
 
 def indexPageView(request):
-    if request.user:
+    if request.user.is_authenticated:
         new_user = request.user
         context = {
-            'fName': new_user.firstname, 
-            'lName':new_user.lastname
+            'fName': new_user.first_name, 
+            'lName':new_user.last_name
         }
         return render(request, 'kidney/index.html', context)
         
@@ -787,11 +787,18 @@ def dashboardMealPageView(request):
 
     #Protein
     kg = (person.weight * 45359237)
-    protein = (0.8 * kg)
-    if ((s_protein + b_protein + l_protein + d_protein) > protein):
-        print("Protein Levels are too high")
-    if ((s_protein + b_protein + l_protein + d_protein) < protein):
-        print("Protein Levels are too low")
+    protConversion = Decimal(0.8)
+    protein = (protConversion * kg)
+    prot_amt = s_protein + b_protein + l_protein + d_protein
+    if ((prot_amt) > protein):
+        
+        msg = EmailMessage()
+        msg['subject'] = 'Kidney Help'
+        msg['from'] = email_sender
+        msg['to'] = email_receiver
+        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Protein levels are too High. Please log into KidneyHelp to see your consumption levels for " + new_date + ". Thank You and have a nice day! \n\n\n -KidneyHelp")
+
+    
 
 
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
@@ -802,9 +809,9 @@ def dashboardMealPageView(request):
     
 
     print(new_date)
-    #Water
     
-    if ((person.gender == "male") & (water < 3.7)) :
+    #Water
+    if ((person.gender == "male") & (water < 3.7)):
         print(new_date)
 
 
@@ -814,7 +821,7 @@ def dashboardMealPageView(request):
         msg['subject'] = 'Kidney Help'
         msg['from'] = email_sender
         msg['to'] = email_receiver
-        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Water levels are too Low. Please log into KidneyHelp to see your consumption levels for " + str(new_date) + ". Thank You and have a nice day! \n\n\n -KidneyHelp")
+        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Water levels are too Low. Please log into KidneyHelp to see your consumption levels. Thank You and have a nice day! \n\n\n -KidneyHelp")
 
 
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
@@ -824,13 +831,13 @@ def dashboardMealPageView(request):
             smtp.send_message(msg)
 
 
-    if ((person.gender == "female") & (water < 2.7)) :
+    if ((person.gender == "female") & (water < 2.7)):
             
         msg = EmailMessage()
         msg['subject'] = 'Kidney Help'
         msg['from'] = email_sender
         msg['to'] = email_receiver
-        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Water levels are too Low. Please log into KidneyHelp to see your consumption levels for " + str(new_date) + ". Thank You and have a nice day! \n\n\n -KidneyHelp")
+        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Water levels are too Low. Please log into KidneyHelp to see your consumption levels. Thank You and have a nice day! \n\n\n -KidneyHelp")
 
 
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
