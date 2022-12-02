@@ -943,22 +943,26 @@ def dashboardVitalsPageView(request):
     print(nutrient_type)
 
     if nutrient_type == 'k' :
+        new_nutrient = 'Potassium'
         print('working')
         expected = 5.2
         for dates in data:
             list.append({ 'nutrient_amount' : dates.K, 'date' : dates.Date})
         
     elif nutrient_type == 'phos' :
+        new_nutrient = 'Phosphorus'
         expected = 4.5
         for dates in data:
             list.append({ 'nutrient_amount' : dates.Phos, 'date' : dates.Date})
 
     elif nutrient_type == 'na' :
+        new_nutrient = 'Sodium'
         expected = 145
         for dates in data:
             list.append({ 'nutrient_amount' : dates.Na, 'date' : dates.Date})
 
     elif nutrient_type == 'creatinine' :
+        new_nutrient = 'Creatinine'
         if person.gender == 'male':
             expected = 1.3
         else:
@@ -967,19 +971,24 @@ def dashboardVitalsPageView(request):
             list.append({ 'nutrient_amount' : dates.Creatinine, 'date' : dates.Date})
 
     elif nutrient_type == 'albumin' :
+        new_nutrient = 'Albumin'
         expected = 3.5
         for dates in data:
             list.append({ 'nutrient_amount' : dates.Albumin, 'date' : dates.Date})
 
     elif nutrient_type == 'bloodsugar' :
+        new_nutrient = 'Blood Sugar'
         expected = 100
         for dates in data:
             list.append({ 'nutrient_amount' : dates.BloodSugar, 'date' : dates.Date})
 
     elif nutrient_type == 'weight' :
+        new_nutrient = 'Weight'
         expected = 0
         for dates in data:
             list.append({ 'nutrient_amount' : dates.Weight, 'date' : dates.Date})
+    else:
+        new_nutrient = 'None'
 
     print(expected)
     print(list)
@@ -988,6 +997,8 @@ def dashboardVitalsPageView(request):
         'data': data,
         'list' : list,
         'expected' : expected,
+        'nutrient_type' : nutrient_type,
+        'nutrient_name' : new_nutrient,
     }
 
     return render(request, 'kidney/dashboardVitals.html', context)

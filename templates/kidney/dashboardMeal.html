@@ -10,27 +10,43 @@
 <div style="padding-top: 100px">
 <div class=row style="padding-right: 40px">
  
-<div class="col-md-6 mb-4" style="padding-top: 125px; padding-left: 50px; padding-right: 0px; padding-bottom: 50px;">
+    <div class="col-md-6 mb-4" style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px; text-align: center;">
+        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Nutrients by Meal</h3>
+        <div>Select the date and the chart will display the amount of nutrients by meal on that date.</div>
+            <div style="padding-top: 50px;">
+                <form method="POST" name="dashboardMealSelect" action="{% url 'dashboardMealSelect' %}">
+                    {% csrf_token %}
+                    <div class="mb-4">
 
-<form method="POST" name="dashboardMealSelect" action="{% url 'dashboardMealSelect' %}">
-    {% csrf_token %}
-    <label for="nutrient">Choose Your Nutrients:</label>
+                        <label for="nutrient">Choose Your Nutrients:</label>
+                        
+                        <select name="nutrient" id="nutrient">
+                            <option value="water">Water</option>
+                            <option value="sodium">Sodium</option>
+                            <option value="protein">Protein</option>
+                            <option value="k">Potassium</option>
+                            <option value="phos">Phos</option>
+                            <option value="sugar">Sugar</option>
+                            <option value="cholesterol">Cholesterol</option>
+                        </select>
+                    </div>
 
-    <select name="nutrient" id="nutrient">
-        <option value="water">Water</option>
-        <option value="sodium">Sodium</option>
-        <option value="protein">Protein</option>
-        <option value="k">Potassium</option>
-        <option value="phos">Phos</option>
-        <option value="sugar">Sugar</option>
-        <option value="cholesterol">Cholesterol</option>
-    </select>
-    <br>
-    <label for="date">Choose Your Date:</label>
-    <input name='date' id='date' type='date'>
+                    <br>
 
-    <button type="submit">Submit</button>
-</form> 
+                    <div class="mb-4">
+        
+                        <div class="form-outline datepicker">
+                          <label class="form-label" for="date">Date:</label>
+                          <input type="date" name="date" id="date" class="form-control" >
+                        </div>
+      
+                    </div>
+                    <br>
+
+                    <button type="submit" class="btn btn-primary" style="background:#67b0d1;">Submit</button>
+                </form> 
+            </div>
+        
 </div>
 
 <!-- By Nutrient -->

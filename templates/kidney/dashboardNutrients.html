@@ -6,18 +6,33 @@
 <div style="padding-top: 100px">
     <div class=row style="padding-right: 40px">
 
-<div class="col-md-6 mb-4" style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
-<form method="POST" name="dashboardDateSelect" action="{% url 'dashboardDateSelect' %}">
-    {% csrf_token %}
-    <label for="date">Choose Your Date:</label>
-    <input name='date' id='date' type='date'>
 
-    <button type="submit">Submit</button>
-</form> 
-</div>
+    <div class="col-md-6 mb-4" style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px; text-align: center;">
+        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Nutrients by Date</h3>
+        <div>Select the date and the chart will display the amount of nutrients of the total food on that date.</div>
+            <div style="padding-top: 50px;">
+                <form method="POST" name="dashboardDateSelect" action="{% url 'dashboardDateSelect' %}">
+                    {% csrf_token %}
+                    <div class="row mb-4 pb-2 pb-md-0 mb-md-5">
+                        <div class="mb-4">
+        
+                          <div class="form-outline datepicker">
+                            <label class="form-label" for="date">Date:</label>
+                            <input type="date" name="date" id="date" class="form-control" >
+                          </div>
+        
+                        </div>
+                      </div>
+
+                    <button type="submit" class="btn btn-primary" style="background:#67b0d1;">Submit</button>
+                </form> 
+            </div>
+        </div>
+    
 
 <!-- By Nutrient -->
 <div class="newcontainer col-md-6 mb-4" style="padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
+    
 <div>
     <canvas id="myChart" width="400" height="400"></canvas>
     <script>
