@@ -1,20 +1,47 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block basetitle %} Index {% endblock %}
 {% block content %}
-<div style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
-    
-    <form method="get" action="{% url 'FoodSearch' %}" name="formfood">
-        <label for='name'>Enter the food name:</label>
-        <input type="text" name='name' id='name'>
-        <br><br>
-        <!--
-        <label for='amount'>Enter the amount:</label>
-        <input type="text" name='amount' id='amount'>
-        <br><br>
-        -->
 
-        <button type="submit">Search</button>
-    </form> 
+<div style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
+<div class="row" style="
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0
+    z-index: 1;">
+    <section class="h-100 h-custom" style="background-color: #fff;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-8 col-xl-6">
+              <div class="card rounded-3">
+                <div class="card-body p-4 p-md-5">
+                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Food Item: {{ food.name }}</h3>  
+                    <form method="get" action="{% url 'FoodSearch' %}" name="formfood">
+                        <div class="form-outline mb-4">
+                            <input type="text" name='name' id='name' class="form-control">
+                            <label for='name' class="form-label">Enter the food name:</label>
+                        </div>
+                        <br><br>
+                        <!--
+                        <label for='amount'>Enter the amount:</label>
+                        <input type="text" name='amount' id='amount'>
+                        <br><br>
+                        -->
+                            <button type="submit" class="btn btn-primary" style="background:#67b0d1;">Search</button>
+                    </form> 
+                    <hr />
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+</div>
 </div>
 
 {% endblock %}  
