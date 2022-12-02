@@ -4,32 +4,57 @@
 {% endblock %} {% block content %}
 
 
-<!-- Button trigger modal
-<form action="">
-  <input type="text" name="personID" id="personID" value=1 hidden>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable">
-  Make a Journal Entry
-</button>
-</form>
--->
 
-<!-- Modal -->
 <div style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
-    <form name="newProfile" method="POST" action="{% url 'storeexercise' %}">
-            
-        {% csrf_token %}
-        <label for="date">Date:</label>
-        <input type="date" name="date" id="date"><br>
 
-        <label for="duration">Duration:</label>
-        <input type="text" name="duration" id="duration" autofocus style="size : 200px"> <br>
+  <section class="h-100 h-custom" style="background-color: #fff;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card rounded-3">
+            {% comment %} <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp"
+              class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+              alt="Sample photo"> {% endcomment %}
+            <div class="card-body p-4 p-md-5">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Enter Exercise Info</h3>
 
-        <label for="weight">Weight:</label>
-        <input type="text" name="weight" id="weight" style="size : 200px"> <br>
+              <form name="newProfile" method="POST" action="{% url 'storeexercise' %}" class="px-md-2">
+                      
+                  {% csrf_token %}
+                  <div class="row mb-4 pb-2 pb-md-0 mb-md-5">
+                    <div class="col-md-6">
+    
+                        <div class="form-outline datepicker">
+                            <label class="form-label" for="date">Date:</label>
+                            <input type="date" name="date" id="date" class="form-control" >
+                        </div>
+    
+                    </div>
+                  </div> 
 
-        
-        
-        <button type="submit" class="btn btn-primary">Save Journal Entry</button>
-    </form>
+                  <div class="row">
+                    <div class="col-md-6 mb-4">
+                      <div class="form-outline mb-4">
+                        <input class="form-control"  type="text" name="duration" id="duration" autofocus>
+                        <label class="form-label" for="duration">Duration:</label>
+                      </div>
+                    </div>
+  
+                    <div class="col-md-6 mb-4">
+                      <div class="form-outline mb-4">
+                        <input type="text" name="weight" id="weight" class="form-control">
+                        <label class="form-label" for="weight">Weight:</label>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary" style="background:#67b0d1">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 {% endblock %}
