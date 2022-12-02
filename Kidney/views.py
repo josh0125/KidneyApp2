@@ -22,11 +22,11 @@ from decimal import Decimal
 # Create your views here.
 
 def indexPageView(request):
-    if request.user:
+    if request.user.is_authenticated:
         new_user = request.user
         context = {
-            'fName': new_user.firstname, 
-            'lName':new_user.lastname
+            'fName': new_user.first_name, 
+            'lName':new_user.last_name
         }
         return render(request, 'kidney/index.html', context)
         
