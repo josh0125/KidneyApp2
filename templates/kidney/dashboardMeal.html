@@ -12,25 +12,36 @@
  
 <div class="col-md-6 mb-4" style="padding-top: 125px; padding-left: 50px; padding-right: 0px; padding-bottom: 50px;">
 
-<form method="POST" name="dashboardMealSelect" action="{% url 'dashboardMealSelect' %}">
-    {% csrf_token %}
-    <label for="nutrient">Choose Your Nutrients:</label>
+<div style="boarder-style: solid;">
 
-    <select name="nutrient" id="nutrient">
-        <option value="water">Water</option>
-        <option value="sodium">Sodium</option>
-        <option value="protein">Protein</option>
-        <option value="k">Potassium</option>
-        <option value="phos">Phos</option>
-        <option value="sugar">Sugar</option>
-        <option value="cholesterol">Cholesterol</option>
-    </select>
-    <br>
-    <label for="date">Choose Your Date:</label>
-    <input name='date' id='date' type='date'>
+    <div style="transform:">
+    <span style="text-align: center;">
+    <h1>See Your Nutrients</h1>
+    <p>broken down by date and meal.</p>
+    </span>
+    </div>
 
-    <button type="submit">Submit</button>
-</form> 
+    <form method="POST" name="dashboardMealSelect" action="{% url 'dashboardMealSelect' %}">
+        {% csrf_token %}
+        <label for="nutrient">Choose Your Nutrients:</label>
+
+        <select name="nutrient" id="nutrient">
+            <option value="water">Water</option>
+            <option value="sodium">Sodium</option>
+            <option value="protein">Protein</option>
+            <option value="k">Potassium</option>
+            <option value="phos">Phos</option>
+            <option value="sugar">Sugar</option>
+            <option value="cholesterol">Cholesterol</option>
+        </select>
+        <br>
+        <label for="date">Choose Your Date:</label>
+        <input name='date' id='date' type='date'>
+
+        <button type="submit">Submit</button>
+    </form> 
+</div>
+
 </div>
 
 <!-- By Nutrient -->

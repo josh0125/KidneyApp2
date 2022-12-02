@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 import urllib.parse
 import requests
 from .models import Person, Morbidity
@@ -915,7 +916,7 @@ def signin(request):
 
         else:
             messages.error(request, "Bad Credentials!")
-            return redirect('newLogin')
+            return HttpResponse('wrong password buddy')
 
     return render(request, "kidney/login.html")
 
