@@ -31,54 +31,6 @@
 
 
 {% if user.is_authenticated %}
-
-{% else %}
-<section id="about" class="about">
-  <div class="container">
-
-    <div class="row no-gutters">
-      <div class="content col-xl-5 d-flex align-items-stretch" data-aos="fade-up">
-        <div class="content">
-          <h3>Signup for Kidney Help!</h3>
-          <p>
-            At Kidney Help, we do our best to help patients with kidney disease manage their diet and lifestyle decisions.
-          </p>
-          <a href="{% url 'login' %}" class="about-btn">Login<i class="bx bx-chevron-right"></i></a>
-        </div>
-      </div>
-      <div class="col-xl-7 d-flex align-items-stretch">
-        <div class="icon-boxes d-flex flex-column justify-content-center">
-          <div class="row">
-            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
-              <i class="bx bx-receipt"></i>
-              <h4>Track your food and water intake</h4>
-              <p>Log what you eat, and how much exercise you do to see if you are living a healthy lifestyle</p>
-            </div>
-            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
-              <i class="bx bx-cube-alt"></i>
-              <h4>Submit Lab Reports</h4>
-              <p>Keep track of you vitals, and keep a record of your history at the doctors office</p>
-            </div>
-            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
-              <i class="bx bx-images"></i>
-              <h4>Get Updates</h4>
-              <p>We will update you if your levels are to high and give guidelines on how to life healthier</p>
-            </div>
-            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
-              <i class="bx bx-shield"></i>
-              <h4>View Progress</h4>
-              <p>See how much work you are putting in with our customized progress reports</p>
-            </div>
-          </div>
-        </div><!-- End .content-->
-      </div>
-    </div>
-
-  </div>
-</section><!-- End About Section -->
-{% endif %}
-
-
  <!-- ======= Services Section ======= -->
  <section id="about" class="services">
   <div class="container">
@@ -90,9 +42,9 @@
 
     <div class="row" style="
       text-align: center;
+      cursor: pointer;
       font-family: Helvetica, Arial, sans-serif;
       font-weight: bold;
-      cursor: pointer;
       width: 100%;
       height: 100%;
       top: 0;
@@ -106,7 +58,7 @@
             height: 100%;
             top: 0;
             left: 0;
-            z-index: 1;"></span> Exercise</a></h4>
+            z-index: 1;"></span>Exercise</a></h4>
           <p class="description">Keep track of your workouts and daily exercise</p>
         </div>
       </div>
@@ -156,9 +108,113 @@
 </section><!-- End Services Section -->
 
 
+
+{% else %}
+<section id="about" class="about">
+  <div class="container">
+
+    <div class="row no-gutters">
+      <div class="content col-xl-5 d-flex align-items-stretch" data-aos="fade-up">
+        <div class="content">
+          <h3>Signup for Kidney Help!</h3>
+          <p>
+            At Kidney Help, we do our best to help patients with kidney disease manage their diet and lifestyle decisions.
+          </p>
+          <a href="{% url 'login' %}" class="about-btn">Login<i class="bx bx-chevron-right"></i></a>
+        </div>
+      </div>
+      <div class="col-xl-7 d-flex align-items-stretch">
+        <div class="icon-boxes d-flex flex-column justify-content-center">
+          <div class="row">
+            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
+              <i class="bx bx-receipt"></i>
+              <h4>Track your food and water intake</h4>
+              <p>Log what you eat, and how much exercise you do to see if you are living a healthy lifestyle</p>
+            </div>
+            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
+              <i class="bx bx-cube-alt"></i>
+              <h4>Submit Lab Reports</h4>
+              <p>Keep track of you vitals, and keep a record of your history at the doctors office</p>
+            </div>
+            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
+              <i class="bx bx-images"></i>
+              <h4>Get Updates</h4>
+              <p>We will update you if your levels are to high and give guidelines on how to life healthier</p>
+            </div>
+            <div class="col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
+              <i class="bx bx-shield"></i>
+              <h4>View Progress</h4>
+              <p>See how much work you are putting in with our customized progress reports</p>
+            </div>
+          </div>
+        </div><!-- End .content-->
+      </div>
+    </div>
+
+  </div>
+</section><!-- End About Section -->
+
+ <!-- ======= Services Section ======= -->
+ <section id="about" class="services">
+  <div class="container">
+
+    <div class="section-title" data-aos="fade-in" data-aos-delay="100">
+      <h2>Services</h2>
+      <p>Here are some of the services you will be able to use with Kidney Help:</p>
+    </div>
+
+    <div class="row" style="
+      text-align: center;
+      font-family: Helvetica, Arial, sans-serif;
+      font-weight: bold;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0
+      z-index: 1;">
+      <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+        <div class="icon-box" data-aos="fade-up">
+          <div class="icon"><i class="bx bxl-dribbble"></i></div>
+          <h4 class="title" style=""><a style="cursor: context;">Exercise</a></h4>
+          <p class="description">Keep track of your workouts and daily exercise</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+        <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+          <div class="icon"><i class="bx bx-file"></i></div>
+          <h4 class="title"><a style="cursor: context;">Vitals</a></h4>
+          <p class="description">Track your vitals reports from you visits to the doctors office</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+        <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
+          <div class="icon"><i class="bx bx-tachometer"></i></div>
+          <h4 class="title"><a style="cursor: context;">Progress</a></h4>
+          <p class="description">See how hard you are working with our progress reports</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+        <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+          <div class="icon"><i class="bx bx-world"></i></div>
+          <h4 class="title"><a style="cursor: context;">Live Healthy</a></h4>
+          <p class="description">Track your meals and receive suggesitons on what could improve your diet</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section><!-- End Services Section -->
+{% endif %}
+
+
 {% if user.is_authenticated %}
 
 {% else %}
+    
     <!-- ======= Cta Section ======= -->
     <section id="cta" class="cta">
       <div class="container" data-aos="zoom-in">
