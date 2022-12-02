@@ -22,7 +22,7 @@ import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# load_dotenv(os.path.join(BASE_DIR, ".env"))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 
 
@@ -30,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '76419fd6885a677f802fd1d2b5acd0188e23e001042b05a8'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 
 #SECRET_KEY = 'django-insecure-+l$!5x5jtb4+%r%cftd$h)th$2x%*#svkkw8yyire$*&-@e=23'
@@ -86,12 +86,11 @@ WSGI_APPLICATION = 'INTEX.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-#DATABASE_URL = 'postgresql://postgres:ylYd68Osr7qQLo2kvy0g@containers-us-west-135.railway.app:6542/railway'
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 DATABASES = {
-    "default": dj_database_url.config(default='postgresql://postgres:ylYd68Osr7qQLo2kvy0g@containers-us-west-135.railway.app:6542/railway', conn_max_age=1800),
+    "default": dj_database_url.config(default=DATABASE_URL, conn_max_age=1800),
 }
-
 '''
 
 DATABASES = {
