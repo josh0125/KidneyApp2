@@ -14,7 +14,11 @@
 </div>
 <div><p>Data: {{K_number}}</p></div>
 -->
-<div style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
+
+<div style="padding-top: 100px">
+    <div class=row style="padding-right: 40px">
+
+<div class="col-md-6 mb-4" style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
 <form method="POST" name="dashboardVitals" action="{% url 'dashboardVitals' %}" >
     {% csrf_token %}
 
@@ -31,6 +35,9 @@
 
     <button type="submit">Submit</button>
 </form> 
+</div>
+
+<div class="newcontainer col-md-6 mb-4" style="padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
 <div>
   <canvas id="myChart" width="400" height="400"></canvas>
 <script> 
@@ -79,4 +86,21 @@ const myChart = new Chart(ctx, {
 </script>
 </div>
 </div>
+
+
+<style>
+    .newcontainer  {
+      
+      height: 50%;
+      width: 50%;
+      left: 50%;
+      right: 50%;
+      background: #f2f2f2;
+      overflow: hidden;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 0 20px 8px #d0d0d0;
+    }
+</style>
+
 {% endblock %}
