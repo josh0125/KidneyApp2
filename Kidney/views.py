@@ -15,11 +15,11 @@ from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
 def indexPageView(request):
-    if request.user:
+    if request.user.is_authenticated:
         new_user = request.user
         context = {
-            'fName': new_user.firstname, 
-            'lName':new_user.lastname
+            'fName': new_user.first_name, 
+            'lName':new_user.last_name
         }
         return render(request, 'kidney/index.html', context)
         
@@ -722,7 +722,7 @@ def dashboardMealPageView(request):
     
 
     #Protein
-    kg = (person.weight * 45359237)
+    kg = (float(person.weight) * 45359237)
     protein = (0.8 * kg)
     if ((s_protein + b_protein + l_protein + d_protein) > protein):
         print("Protein Levels are too high")

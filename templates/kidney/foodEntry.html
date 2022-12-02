@@ -2,23 +2,53 @@
 {% load static %}
 {% block content %}
 <div style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
-    
-    <form method="POST" name="formFoodEntry" action="{% url 'FoodEntrySubmit' %}">
-        {% csrf_token %}
-        <label for='date'>Enter the Date:</label>
-        <input type="date" name="date" id="date">
-        <br><br>
-        <label for="meal">Choose Your Meal:</label>
 
-        <select name="meal" id="meal">
-            <option value="breakfast">Breakfast</option>
-            <option value="lunch">Lunch</option>
-            <option value="dinner">Dinner</option>
-            <option value="snack">Snack</option>
-        </select>
+    <section class="h-100 h-custom" style="background-color: #fff;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-8 col-xl-6">
+              <div class="card rounded-3">
+                {% comment %} <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp"
+                  class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+                  alt="Sample photo"> {% endcomment %}
+                <div class="card-body p-4 p-md-5">
+                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Enter Food Entry Info</h3>
     
-        <button type="submit">Submit</button>
-    </form> 
+                    <form method="POST" name="formFoodEntry" action="{% url 'FoodEntrySubmit' %}" class="px-md-2">
+                        {% csrf_token %}
+
+
+                        <div class="row mb-4 pb-2 pb-md-0 mb-md-5">
+                            <div class="col-md-6">
+            
+                                <div class="form-outline datepicker">
+                                    <label class="form-label" for="date">Date:</label>
+                                    <input type="date" name="date" id="date" class="form-control" >
+                                </div>
+            
+                            </div>
+                        </div>       
+                        
+                        <div class="mb-4">
+
+                            <label for="meal">Choose Your Meal:</label>
+
+                            <select name="meal" id="meal" class="select">
+                                <option value="breakfast">Breakfast</option>
+                                <option value="lunch">Lunch</option>
+                                <option value="dinner">Dinner</option>
+                                <option value="snack">Snack</option>
+                            </select>
+                        </div>
+                    
+                        <button type="submit" class="btn btn-success btn-lg mb-1" style="background:#67b0d1;">Submit</button>
+                    </form> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 
 {% endblock %}  

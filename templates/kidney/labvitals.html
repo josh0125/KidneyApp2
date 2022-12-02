@@ -3,48 +3,105 @@
 {% block basetitle %} Labs 
 {% endblock %} {% block content %}
 <div style="padding-top: 125px; padding-left: 50px; padding-right: 50px; padding-bottom: 50px;">
-  <div>
-    <h1>Enter Lab Info:</h1> <br> <br>
-    <!-- form will go here later-->
-  </div>
-  <div class="col-md-8">
-    <form name="newLabs" method="POST" action="{% url 'storevitals' %}">
-      {% csrf_token %}
-      <input type="text" name="personID" id="personID" value=1 hidden>
+  <section class="h-100 h-custom" style="background-color: #fff;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card rounded-3">
+            {% comment %} <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp"
+              class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+              alt="Sample photo"> {% endcomment %}
+            <div class="card-body p-4 p-md-5">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Enter Lab Info</h3>
+  
+              <form class="px-md-2" name="newLabs" method="POST" action="{% url 'storevitals' %}">
+                {% csrf_token %}
+                <input type="text" name="personID" id="personID" value=1 hidden>
+                
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline mb-4">
+                      <input type="text" id="k" class="form-control" name="k">
+                      <label class="form-label" for="k">Potassium:</label>
+                    </div>
+                  </div>
 
-      <label for="k">K:</label>
-      <input type="text" name="k" id="k" autofocus> <br>
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline mb-4">
+                      <input type="text" id="k" class="form-control" name="phos">
+                      <label class="form-label" for="phos">Phos:</label>
+                    </div>
+                  </div>
+                </div>
 
-      <label for="phos">Phos:</label>
-      <input type="text" name="phos" id="phos"> <br>
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline mb-4">
+                      <input type="text" id="na" class="form-control" name="na">
+                      <label class="form-label" for="na">Na:</label>
+                    </div>
+                  </div>
 
-      <label for="na">Na:</label>
-      <input type="text" name="na" id="na"> <br>
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline mb-4">
+                      <input type="text" id="creatinine" class="form-control" name="creatinine">
+                      <label class="form-label" for="creatinine">Creatinine:</label>
+                    </div>
+                  </div>
+                </div>
 
-      <label for="creatinine">Ceatinine:</label>
-      <input type="text" name="creatinine" id="creatinine"> <br>
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline mb-4">
+                      <input type="text" id="albumin" class="form-control" name="albumin">
+                      <label class="form-label" for="albumin">Albumin:</label>
+                    </div>
+                  </div>
 
-      <label for="albumin">Albumin:</label>
-      <input type="text" name="albumin" id="albumin"> <br>
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline mb-4">
+                      <input type="text" id="blood" class="form-control" name="blood">
+                      <label class="form-label" for="blood">Blood Pressure:</label>
+                    </div>
+                  </div>
+                </div>
 
-      <label for="blood">Blood Pressure:</label>
-      <input type="text" name="blood" id="blood"> <br>
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline mb-4">
+                      <input type="text" id="sugar" class="form-control" name="sugar">
+                      <label class="form-label" for="sugar">Blood Sugar:</label>
+                    </div>
+                  </div>
 
-      <label for="sugar">Blood Sugar:</label>
-      <input type="text" name="sugar" id="sugar"> <br>
+                  <div class="col-md-6 mb-4">
+                    <div class="form-outline mb-4">
+                      <input type="text" id="weight" class="form-control" name="weight">
+                      <label class="form-label" for="weight">Weight:</label>
+                    </div>
+                  </div>
+                </div>
 
-      <label for="weight">Weight:</label>
-      <input type="text" name="weight" id="weight"> <br>
+                <div class="row mb-4 pb-2 pb-md-0 mb-md-5">
+                  <div class="col-md-6">
+  
+                    <div class="form-outline datepicker">
+                      <label class="form-label" for="date">Date:</label>
+                      <input type="date" name="date" id="date" class="form-control" >
+                    </div>
+  
+                  </div>
+                </div>
 
-      <label for="date">Date:</label>
-      <input type="date" name="date" id="date"> <br>
-      
-
-
-      <button type="submit">Store Vitals</button>
-
-    </form>
-    <!--chart will go here later-->
-  </div>
+                <button type="submit" class="btn btn-success btn-lg mb-1" style="background:#67b0d1;">Store Vitals</button>
+          
+              </form>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 {% endblock %}
