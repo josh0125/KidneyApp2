@@ -22,11 +22,11 @@ from decimal import Decimal
 # Create your views here.
 
 def indexPageView(request):
-    if request.user.is_authenticated:
+    if request.user:
         new_user = request.user
         context = {
-            'fName': new_user.first_name, 
-            'lName':new_user.last_name
+            'fName': new_user.firstname, 
+            'lName':new_user.lastname
         }
         return render(request, 'kidney/index.html', context)
         
@@ -808,6 +808,130 @@ def dashboardMealPageView(request):
     print(b_sugar)
     print(l_sugar)
     print(d_sugar)
+
+
+
+# EMAIL STUFF
+
+    sod = s_sodium + b_sodium + l_sodium + d_sodium
+    potass = s_k + b_k + l_k + d_k
+    pho = s_phos + b_phos + l_phos + d_phos
+    water = s_water + b_water + l_water + d_water
+    print(sod)
+    type(new_date)
+        
+    email_sender = 'kidneyhelp1010@gmail.com'
+    email_password = 'ojhjidztsujqcdim'
+    email_receiver = 'josh.miner356@gmail.com'
+
+    # Sodium
+    if ((sod) > 2300):
+        
+
+        msg = EmailMessage()
+        msg['subject'] = 'Kidney Help'
+        msg['from'] = email_sender
+        msg['to'] = email_receiver
+        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Sodium levels are too High. Please log into KidneyHelp to see your consumption levels for " + new_date + ". Thank You and have a nice day! \n\n\n -KidneyHelp")
+
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+
+            smtp.login(email_sender, email_password)
+
+            smtp.send_message(msg)
+
+        
+
+
+    #Potassium
+    if ((potass) > 3500):
+        
+        msg = EmailMessage()
+        msg['subject'] = 'Kidney Help'
+        msg['from'] = email_sender
+        msg['to'] = email_receiver
+        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Potassium levels are too High. Please log into KidneyHelp to see your consumption levels for " + new_date + ". Thank You and have a nice day! \n\n\n -KidneyHelp")
+
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+
+            smtp.login(email_sender, email_password)
+
+            smtp.send_message(msg)
+    
+    
+    #Phos
+    if ((pho) > 3500):
+        
+        msg = EmailMessage()
+        msg['subject'] = 'Kidney Help'
+        msg['from'] = email_sender
+        msg['to'] = email_receiver
+        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Phosphorous levels are too High. Please log into KidneyHelp to see your consumption levels for " + new_date + ". Thank You and have a nice day! \n\n\n -KidneyHelp")
+
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+
+            smtp.login(email_sender, email_password)
+
+            smtp.send_message(msg)
+    
+
+    #Protein
+    kg = (person.weight * 45359237)
+    protein = (0.8 * kg)
+    if ((s_protein + b_protein + l_protein + d_protein) > protein):
+        print("Protein Levels are too high")
+    if ((s_protein + b_protein + l_protein + d_protein) < protein):
+        print("Protein Levels are too low")
+
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+
+            smtp.login(email_sender, email_password)
+
+            smtp.send_message(msg)
+    
+
+    print(new_date)
+    #Water
+    
+    if ((person.gender == "male") & (water < 3.7)) :
+        print(new_date)
+
+
+        # new_date2 = request.POST.get('date')
+            
+        msg = EmailMessage()
+        msg['subject'] = 'Kidney Help'
+        msg['from'] = email_sender
+        msg['to'] = email_receiver
+        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Water levels are too Low. Please log into KidneyHelp to see your consumption levels for " + str(new_date) + ". Thank You and have a nice day! \n\n\n -KidneyHelp")
+
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+
+            smtp.login(email_sender, email_password)
+
+            smtp.send_message(msg)
+
+
+    if ((person.gender == "female") & (water < 2.7)) :
+            
+        msg = EmailMessage()
+        msg['subject'] = 'Kidney Help'
+        msg['from'] = email_sender
+        msg['to'] = email_receiver
+        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Water levels are too Low. Please log into KidneyHelp to see your consumption levels for " + str(new_date) + ". Thank You and have a nice day! \n\n\n -KidneyHelp")
+
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+
+            smtp.login(email_sender, email_password)
+
+            smtp.send_message(msg)
+
 
     
     context = {
