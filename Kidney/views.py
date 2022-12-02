@@ -22,11 +22,11 @@ from decimal import Decimal
 # Create your views here.
 
 def indexPageView(request):
-    if request.user.is_authenticated:
+    if request.user:
         new_user = request.user
         context = {
-            'fName': new_user.first_name, 
-            'lName':new_user.last_name
+            'fName': new_user.firstname, 
+            'lName':new_user.lastname
         }
         return render(request, 'kidney/index.html', context)
         
@@ -376,7 +376,7 @@ def FoodSearchPageView(request) :
 
     data = {'name': sName.upper(), 'list': []}
 
-    for iCount in range(0,1):
+    for iCount in range(0,5):
         newID = new['foods'][iCount]['fdcId']
         
         api2 = 'https://api.nal.usda.gov/fdc/v1/food/' + str(newID) + '?api_key=hzFpuwTYK1oM4XS0SnGp0xJyNVQG7EI4Yq0ZK5dl'
@@ -511,6 +511,99 @@ def FoodTotalPageView(request) :
     context = {
         'food' : data
     }
+
+    suggestions = {'sodium': 'apples, oranges, bananas, non-processed meat, fat-free or low-fat dairy, unsalted nuts, rice', \
+        'phosphorous': 'apples, oranges, pineapple, broccoli, cucumber, bread, pasta, rice, tea', \
+            'protein': 'fresh fruit, bread, pasta, fish, corn, rice', \
+                'potassium': 'avocados, pasta, oats, tomatoes, asparagus, apples, bananas', \
+                'water' : 'Drink More Water'}
+
+    new_person = request.user
+    person = Person.objects.get(username=new_person.username)
+
+    id = FoodEntry.objects.latest('foodentryid').foodentryid
+    new_date = FoodEntry.objects.latest('foodentryid').date
+
+    data = FoodEntry.objects.filter(personid=person.personid, date=new_date)
+
+    print(new_date)
+
+    water = 0
+    sodium = 0
+    protein = 0
+    k = 0
+    phos = 0
+    sugar = 0
+    cholesterol = 0
+    
+    for datas in data:
+        for f in datas.foods.all() :
+            water += float(f.water)
+            sodium += float(f.sodium)
+            protein += float(f.protein)
+            k += float(f.k)
+            phos += float(f.phosphorus)
+    
+    kg = (float(person.weight) * 0.45359237)
+    protein_compare = (0.6 * kg)
+
+    if person.gender == 'male':
+        water_compare = 3.7
+    else :
+        water_compare = 2.7
+
+    nutrients = {'sodium' : sodium, 'protein' : protein, 'k' : k, 'phos' : phos}
+
+    # EMAIL STUFF        
+    email_sender = 'kidneyhelp1010@gmail.com'
+    email_password = 'ojhjidztsujqcdim'
+    email_receiver = person.email
+
+    # Sodium
+    types = []
+
+    if ((sodium) > 2300):
+        types.append('sodium')
+    if ((k) > 500):
+        types.append('potassium')
+    if ((phos) > 3500):
+        types.append('phosphorous')
+    if ((protein) > protein_compare):
+        types.append('protein')
+    if ((water < water_compare)) :
+        types.append('water')
+
+    output1 = ''
+    output2 = ''
+    print(k)
+
+    if len(types) >= 1:
+        for t in types:
+            print(t)
+            foods = suggestions[t]
+            print(foods)
+            output1 += t + ', '
+            output2 += t + ': ' + str(foods) + '\n\n'
+
+    print(output1)
+    print(output2)
+    
+    if len(types) >= 1:
+        msg = EmailMessage()
+        msg['subject'] = 'Kidney Help'
+        msg['from'] = email_sender
+        msg['to'] = email_receiver
+        msg.set_content('Hello ' + person.first_name + "!\nWe received an alert that your " + \
+            output1 + "levels are too high. Please log into KidneyHelp to see your consumption levels for " + str(new_date) + \
+            ". Here are some food suggestions that have low levels for these nutrients: \n\n\n" + \
+                output2  +  "Thank You and have a nice day! \n\n\n -KidneyHelp")
+
+
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+
+            smtp.login(email_sender, email_password)
+
+            smtp.send_message(msg)
 
     return render(request, 'kidney/foodDisplay.html', context)
 
@@ -787,18 +880,11 @@ def dashboardMealPageView(request):
 
     #Protein
     kg = (person.weight * 45359237)
-    protConversion = Decimal(0.8)
-    protein = (protConversion * kg)
-    prot_amt = s_protein + b_protein + l_protein + d_protein
-    if ((prot_amt) > protein):
-        
-        msg = EmailMessage()
-        msg['subject'] = 'Kidney Help'
-        msg['from'] = email_sender
-        msg['to'] = email_receiver
-        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Protein levels are too High. Please log into KidneyHelp to see your consumption levels for " + new_date + ". Thank You and have a nice day! \n\n\n -KidneyHelp")
-
-    
+    protein = (0.8 * kg)
+    if ((s_protein + b_protein + l_protein + d_protein) > protein):
+        print("Protein Levels are too high")
+    if ((s_protein + b_protein + l_protein + d_protein) < protein):
+        print("Protein Levels are too low")
 
 
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
@@ -809,9 +895,9 @@ def dashboardMealPageView(request):
     
 
     print(new_date)
-    
     #Water
-    if ((person.gender == "male") & (water < 3.7)):
+    
+    if ((person.gender == "male") & (water < 3.7)) :
         print(new_date)
 
 
@@ -821,7 +907,7 @@ def dashboardMealPageView(request):
         msg['subject'] = 'Kidney Help'
         msg['from'] = email_sender
         msg['to'] = email_receiver
-        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Water levels are too Low. Please log into KidneyHelp to see your consumption levels. Thank You and have a nice day! \n\n\n -KidneyHelp")
+        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Water levels are too Low. Please log into KidneyHelp to see your consumption levels for " + str(new_date) + ". Thank You and have a nice day! \n\n\n -KidneyHelp")
 
 
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
@@ -831,13 +917,13 @@ def dashboardMealPageView(request):
             smtp.send_message(msg)
 
 
-    if ((person.gender == "female") & (water < 2.7)):
+    if ((person.gender == "female") & (water < 2.7)) :
             
         msg = EmailMessage()
         msg['subject'] = 'Kidney Help'
         msg['from'] = email_sender
         msg['to'] = email_receiver
-        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Water levels are too Low. Please log into KidneyHelp to see your consumption levels. Thank You and have a nice day! \n\n\n -KidneyHelp")
+        msg.set_content('Hello ' + person.first_name + "! We received an alert that your Water levels are too Low. Please log into KidneyHelp to see your consumption levels for " + str(new_date) + ". Thank You and have a nice day! \n\n\n -KidneyHelp")
 
 
         with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
@@ -1027,5 +1113,92 @@ def dashboardVitalsPageView(request):
     }
 
     return render(request, 'kidney/dashboardVitals.html', context)
+'''
+def sendEmail():
+    suggestions = {'sodium': 'apples, oranges, bananas, non-processed meat, fat-free or low-fat dairy, unsalted nuts, rice', \
+        'phos': ['apples', 'oranges', 'pineapple', 'broccoli', 'cucumber', 'bread', 'pasta', 'rice', 'tea'], \
+            'protein': ['fresh fruit', 'bread', 'pasta', 'fish', 'corn', 'rice'], \
+                'k': ['avocados', 'pasta', 'oats', 'tomatoes', 'asparagus', 'apples', 'bananas']}
+
+    new_person = request.user
+    person = Person.objects.get(username=new_person.username)
+
+    id = FoodEntry.objects.latest('foodentryid').foodentryid
+    new_date = FoodEntry.objects.latest('foodentryid').date
+
+    data = FoodEntry.objects.filter(personid=person.personid, date=new_date)
+
+    print(new_date)
+
+    water = 0
+    sodium = 0
+    protein = 0
+    k = 0
+    phos = 0
+    sugar = 0
+    cholesterol = 0
+    
+    for datas in data:
+        for f in datas.foods.all() :
+            water += float(f.water)
+            sodium += float(f.sodium)
+            protein += float(f.protein)
+            k += float(f.k)
+            phos += float(f.phosphorus)
+    
+    kg = (float(person.weight) * 0.45359237)
+    protein_compare = (0.6 * kg)
+
+    if person.gender == 'male':
+        water_compare = 3.7
+    else :
+        water_compare = 2.7
+
+    nutrients = {'sodium' : sodium, 'protein' : protein, 'k' : k, 'phos' : phos}
+
+    # EMAIL STUFF        
+    email_sender = 'kidneyhelp1010@gmail.com'
+    email_password = 'ojhjidztsujqcdim'
+    email_receiver = 'josh.miner356@gmail.com'
+
+    # Sodium
+    types = []
+
+    if ((sodium) > 2300):
+        types.append('sodium')
+    elif ((k) > 3500):
+        types.append('potassium')
+    elif ((phos) > 3500):
+        types.append('phosphorous')
+    elif ((protein) > protein_compare):
+        types.append('protein')
+    elif ((water < water_compare)) :
+        types.append('water')
+
+    output = ''
+    output2 = ''
+
+    for type in types:
+        foods = suggestions[type]
+        output += type + ', '
+        output2 += type.upper() + ": " + foods + '\n\n'
+
+    print(output1)
+    print(output2)
+    
+    msg = EmailMessage()
+    msg['subject'] = 'Kidney Help'
+    msg['from'] = email_sender
+    msg['to'] = email_receiver
+    msg.set_content('Hello ' + person.first_name + "! We received an alert that your " + \
+        output + "levels are too high. Please log into KidneyHelp to see your consumption levels for " + str(new_date) + ". \
+            Here are some food suggestions that have low levels for these nutrients. \n\n\n" + \
+            output2  +  "Thank You and have a nice day! \n\n\n -KidneyHelp")
 
 
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+
+        smtp.login(email_sender, email_password)
+
+        smtp.send_message(msg)
+    '''
